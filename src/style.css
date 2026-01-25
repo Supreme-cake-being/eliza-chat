@@ -24,9 +24,17 @@ body {
 }
 body {
   margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
-    "Apple Color Emoji", "Segoe UI Emoji";
-  background: radial-gradient(
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+  background:
+    radial-gradient(
       1200px 600px at 15% 10%,
       rgba(43, 108, 255, 0.18),
       transparent 60%
@@ -50,11 +58,8 @@ body {
 .chat-card {
   width: min(920px, 100%);
   height: min(720px, 92vh);
-  background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.03),
-      transparent 25%
-    ),
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 25%),
     var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -127,7 +132,8 @@ body {
 }
 
 .msg--user .msg__bubble {
-  background: linear-gradient(
+  background:
+    linear-gradient(
       180deg,
       rgba(255, 255, 255, 0.08),
       rgba(255, 255, 255, 0.04)
@@ -191,6 +197,8 @@ body {
   background: rgba(0, 0, 0, 0.18);
   color: var(--text);
   outline: none;
+
+  resize: none;
 }
 
 .input::placeholder {

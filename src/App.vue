@@ -1,7 +1,7 @@
 <template>
-  <ChatEliza />
+  <Chat />
 </template>
 
 <script setup lang="ts">
-import ChatEliza from "@/components/ChatEliza.vue";
+import Chat from "@/components/Chat.vue";
 </script>
