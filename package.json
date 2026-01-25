@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@buf/connectrpc_eliza.bufbuild_es": "^2.11.0-20230913231627-233fca715f49.1",
+    "@connectrpc/connect": "^2.1.1",
+    "@connectrpc/connect-web": "^2.1.1",
     "vue": "^3.5.24"
   },
   "devDependencies": {
