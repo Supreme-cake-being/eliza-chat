@@ -38,17 +38,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from "vue";
+import { ref, nextTick, watch, onMounted } from "vue";
 import Input from "@/components/Input.vue";
 import Message from "@/components/Message.vue";
 import { sendMessage } from "@/services/eliza.service";
 import type { ChatMessage, MessageAuthor } from "@/types/chat";
+
+const STORAGE_KEY = "messages";
 
 const messages = ref<ChatMessage[]>([]);
 const isLoading = ref(false);
 
 const chatBody = ref<HTMLElement | null>(null);
 const chatInput = ref<InstanceType<typeof Input> | null>(null);
+
+// Restore chat on load
+onMounted(() => {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    try {
+      messages.value = JSON.parse(saved) as ChatMessage[];
+      scrollToBottom();
+    } catch {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  }
+});
+
+// Persist chat
+watch(
+  messages,
+  (val) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(val));
+  },
+  { deep: true },
+);
 
 // Helpers
 function now() {
@@ -97,6 +121,7 @@ async function handleSend(text: string) {
 
 function clearChat() {
   messages.value = [];
+  localStorage.removeItem(STORAGE_KEY);
   chatInput.value?.focus();
 }
 </script>
