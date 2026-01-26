@@ -1,5 +1,77 @@
-# Vue 3 + TypeScript + Vite
+# Eliza Chat
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Технології
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+- **Vue 3** (Composition API)
+- **TypeScript**
+- **Vite**
+- **ConnectRPC**
+- **ESLint v9**
+
+## Встановлення
+
+1. Клонувати репозиторій:
+
+```bash
+git clone https://github.com/<your-username>/eliza-chat.git
+```
+
+2. Встановити залежності:
+
+```bash
+npm install
+```
+
+## Запуск проєкту
+
+### Режим розробки
+
+```bash
+npm run dev
+```
+
+Після цього застосунок буде доступний за адресою:
+
+```
+http://localhost:5173
+```
+
+### Білд
+
+```bash
+npm run build
+```
+
+### Старт
+
+```bash
+npm run start
+```
+
+## Перевірка коду з ESLint
+
+Запуск ESLint:
+
+```bash
+npm run lint
+```
+
+Якщо помилок немає, виведеться повідомлення:
+
+```
+ESLint: no errors found
+```
+
+## Структура проєкту
+
+```
+src/
+├─ assets/            # Ресурси
+├─ components/        # Vue компоненти (Chat, Message, Input)
+├─ rpc/               # RPC клієнт
+├─ services/          # Робота з ConnectRPC API
+├─ types/             # Типи
+├─ App.vue
+├─ main.ts
+└─ style.css
+```
