@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, watch, onMounted } from "vue";
+import { ref, nextTick, onMounted } from "vue";
 import Input from "@/components/Input.vue";
 import Message from "@/components/Message.vue";
 import { sendMessage } from "@/services/eliza.service";
@@ -65,15 +65,6 @@ onMounted(() => {
   }
 });
 
-// Persist chat
-watch(
-  messages,
-  (val) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(val));
-  },
-  { deep: true },
-);
-
 // Helpers
 function now() {
   return new Date().toLocaleTimeString([], {
@@ -90,6 +81,7 @@ function addMessage(author: MessageAuthor, text: string) {
     time: author !== "system" ? now() : undefined,
   });
 
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(messages.value));
   scrollToBottom();
 }
 
