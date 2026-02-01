@@ -1,6 +1,7 @@
 import { ref, onMounted } from "vue";
 import type { ChatMessage, MessageAuthor } from "@/types/chat";
 import { isChatMessageArray, isValidMessageText } from "@/helpers/validation";
+import { now } from "@/helpers/now";
 
 export function useChat(storageKey: string) {
   const messages = ref<ChatMessage[]>([]);
@@ -8,13 +9,6 @@ export function useChat(storageKey: string) {
 
   function persist() {
     localStorage.setItem(storageKey, JSON.stringify(messages.value));
-  }
-
-  function now() {
-    return new Date().toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
   }
 
   function addMessage(author: MessageAuthor, text: string) {
