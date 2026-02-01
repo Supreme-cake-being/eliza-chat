@@ -24,7 +24,7 @@
 
       <!-- Footer -->
       <footer class="chat-footer">
-        <Input :loading="isLoading" @send="handleSend" ref="chatInput" />
+        <Input :loading="isLoading" @send="handleSend" />
 
         <div class="status">
           <span class="status__dot"></span>
@@ -46,7 +46,6 @@ import { useChat } from "@/composables/useChat";
 import { STORAGE_KEY } from "@/constants/storageKey";
 
 const chatBody = ref<HTMLElement | null>(null);
-const chatInput = ref<InstanceType<typeof Input> | null>(null);
 
 const { messages, isLoading, addMessage, clearChat } = useChat(STORAGE_KEY);
 
