@@ -62,12 +62,9 @@ function onSend() {
 
   emit("send", localValue.value.trim());
   localValue.value = "";
-
-  nextTick(() => {
-    inputRef.value?.focus();
-  });
 }
 
+// Watcher for input focus
 watch(
   () => props.loading,
   (loading) => {
