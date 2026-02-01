@@ -11,6 +11,22 @@ export function useChat(storageKey: string) {
     localStorage.setItem(storageKey, JSON.stringify(messages.value));
   }
 
+  function restore() {
+    const raw = localStorage.getItem(storageKey);
+    if (!raw) return;
+
+    try {
+      const parsed = JSON.parse(raw);
+      if (isChatMessageArray(parsed)) {
+        messages.value = parsed;
+      } else {
+        throw new Error();
+      }
+    } catch {
+      localStorage.removeItem(storageKey);
+    }
+  }
+
   function addMessage(author: MessageAuthor, text: string) {
     if (!isValidMessageText(text)) return;
 
@@ -29,25 +45,12 @@ export function useChat(storageKey: string) {
     localStorage.removeItem(storageKey);
   }
 
-  onMounted(() => {
-    const raw = localStorage.getItem(storageKey);
-    if (!raw) return;
-
-    try {
-      const parsed = JSON.parse(raw);
-      if (isChatMessageArray(parsed)) {
-        messages.value = parsed;
-      } else {
-        throw new Error();
-      }
-    } catch {
-      localStorage.removeItem(storageKey);
-    }
-  });
+  onMounted(restore);
 
   return {
     messages,
     isLoading,
+    restore,
     addMessage,
     clearChat,
   };

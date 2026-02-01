@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "start": "vite preview",
-    "lint": "eslint \"src/**/*.{ts,vue}\" && echo \"ESLint: no errors found\""
+    "lint": "eslint \"src/**/*.{ts,vue}\" && echo \"ESLint: no errors found\"",
+    "test": "vitest"
   },
   "dependencies": {
     "@buf/connectrpc_eliza.bufbuild_es": "^2.11.0-20230913231627-233fca715f49.1",
@@ -24,8 +25,10 @@
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.39.2",
     "eslint-plugin-vue": "^10.7.0",
+    "jsdom": "^27.4.0",
     "typescript": "~5.9.3",
     "vite": "^7.2.4",
+    "vitest": "^4.0.18",
     "vue-tsc": "^3.1.4"
   }
 }
