@@ -43,8 +43,7 @@ import Input from "@/components/Input.vue";
 import Message from "@/components/Message.vue";
 import { sendMessage } from "@/services/eliza.service";
 import { useChat } from "@/composables/useChat";
-
-const STORAGE_KEY = "messages";
+import { STORAGE_KEY } from "@/constants/storageKey";
 
 const chatBody = ref<HTMLElement | null>(null);
 const chatInput = ref<InstanceType<typeof Input> | null>(null);

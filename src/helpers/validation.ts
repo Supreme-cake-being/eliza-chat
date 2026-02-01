@@ -1,7 +1,8 @@
+import {
+  MAX_MESSAGE_LENGTH,
+  MIN_MESSAGE_LENGTH,
+} from "@/constants/stringValidation";
 import { ChatMessage, MessageAuthor } from "@/types/chat";
-
-export const MAX_MESSAGE_LENGTH = 200;
-export const MIN_MESSAGE_LENGTH = 1;
 
 export function isValidMessageText(value: unknown): value is string {
   if (typeof value !== "string") return false;
