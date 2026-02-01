@@ -38,61 +38,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, watch, onMounted } from "vue";
+import { ref, nextTick, onMounted } from "vue";
 import Input from "@/components/Input.vue";
 import Message from "@/components/Message.vue";
 import { sendMessage } from "@/services/eliza.service";
-import type { ChatMessage, MessageAuthor } from "@/types/chat";
-
-const STORAGE_KEY = "messages";
-
-const messages = ref<ChatMessage[]>([]);
-const isLoading = ref(false);
+import { useChat } from "@/composables/useChat";
+import { STORAGE_KEY } from "@/constants/storageKey";
 
 const chatBody = ref<HTMLElement | null>(null);
 const chatInput = ref<InstanceType<typeof Input> | null>(null);
 
-// Restore chat on load
-onMounted(() => {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    try {
-      messages.value = JSON.parse(saved) as ChatMessage[];
-      scrollToBottom();
-    } catch {
-      localStorage.removeItem(STORAGE_KEY);
-    }
-  }
-});
+const { messages, isLoading, addMessage, clearChat } = useChat(STORAGE_KEY);
 
-// Persist chat
-watch(
-  messages,
-  (val) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(val));
-  },
-  { deep: true },
-);
+onMounted(() => scrollToBottom());
 
-// Helpers
-function now() {
-  return new Date().toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
-function addMessage(author: MessageAuthor, text: string) {
-  messages.value.push({
-    id: crypto.randomUUID(),
-    author,
-    text,
-    time: author !== "system" ? now() : undefined,
-  });
-
-  scrollToBottom();
-}
-
+// Scroll
 async function scrollToBottom() {
   await nextTick();
   chatBody.value?.scrollTo({
@@ -107,6 +67,7 @@ async function handleSend(text: string) {
 
   addMessage("user", text);
   isLoading.value = true;
+  scrollToBottom();
 
   try {
     const reply = await sendMessage(text);
@@ -115,13 +76,7 @@ async function handleSend(text: string) {
     addMessage("system", "Network error. Please try again.");
   } finally {
     isLoading.value = false;
-    chatInput.value?.focus();
+    scrollToBottom();
   }
-}
-
-function clearChat() {
-  messages.value = [];
-  localStorage.removeItem(STORAGE_KEY);
-  chatInput.value?.focus();
 }
 </script>
