@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { isValidMessageText } from "@/helpers/validation";
-import { ref, computed, nextTick } from "vue";
+import { ref, computed, nextTick, watch } from "vue";
 
 // Props
 const props = defineProps<{
@@ -68,8 +68,14 @@ function onSend() {
   });
 }
 
-// Expose focus() to parent
-defineExpose({
-  focus: () => inputRef.value?.focus(),
-});
+watch(
+  () => props.loading,
+  (loading) => {
+    if (!loading) {
+      nextTick(() => {
+        inputRef.value?.focus();
+      });
+    }
+  },
+);
 </script>
