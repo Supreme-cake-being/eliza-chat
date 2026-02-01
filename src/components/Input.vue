@@ -10,12 +10,15 @@
         v-model="localValue"
         placeholder="Type your message…"
         rows="1"
+        maxlength="200"
         :disabled="loading"
         @keydown.enter.exact.prevent="onSend"
         @keydown.enter.shift
       />
 
-      <div class="composer__hint">Enter — send • Shift+Enter — new line</div>
+      <div class="composer__hint">
+        Enter — send • Shift+Enter — new line • {{ localValue.length }}/200
+      </div>
     </div>
 
     <button
@@ -33,6 +36,7 @@
 </template>
 
 <script setup lang="ts">
+import { isValidMessageText } from "@/helpers/validation";
 import { ref, computed, nextTick } from "vue";
 
 // Props
@@ -50,7 +54,7 @@ const localValue = ref("");
 const inputRef = ref<HTMLTextAreaElement | null>(null);
 
 // Validation
-const isValid = computed(() => localValue.value.trim().length > 0);
+const isValid = computed(() => isValidMessageText(localValue.value));
 
 // Actions
 function onSend() {

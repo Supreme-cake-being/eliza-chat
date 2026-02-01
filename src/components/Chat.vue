@@ -42,49 +42,18 @@ import { ref, nextTick, onMounted } from "vue";
 import Input from "@/components/Input.vue";
 import Message from "@/components/Message.vue";
 import { sendMessage } from "@/services/eliza.service";
-import type { ChatMessage, MessageAuthor } from "@/types/chat";
+import { useChat } from "@/composables/useChat";
 
 const STORAGE_KEY = "messages";
-
-const messages = ref<ChatMessage[]>([]);
-const isLoading = ref(false);
 
 const chatBody = ref<HTMLElement | null>(null);
 const chatInput = ref<InstanceType<typeof Input> | null>(null);
 
-// Restore chat on load
-onMounted(() => {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    try {
-      messages.value = JSON.parse(saved) as ChatMessage[];
-      scrollToBottom();
-    } catch {
-      localStorage.removeItem(STORAGE_KEY);
-    }
-  }
-});
+const { messages, isLoading, addMessage, clearChat } = useChat(STORAGE_KEY);
 
-// Helpers
-function now() {
-  return new Date().toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
+onMounted(() => scrollToBottom());
 
-function addMessage(author: MessageAuthor, text: string) {
-  messages.value.push({
-    id: crypto.randomUUID(),
-    author,
-    text,
-    time: author !== "system" ? now() : undefined,
-  });
-
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(messages.value));
-  scrollToBottom();
-}
-
+// Scroll
 async function scrollToBottom() {
   await nextTick();
   chatBody.value?.scrollTo({
@@ -99,6 +68,7 @@ async function handleSend(text: string) {
 
   addMessage("user", text);
   isLoading.value = true;
+  scrollToBottom();
 
   try {
     const reply = await sendMessage(text);
@@ -107,13 +77,8 @@ async function handleSend(text: string) {
     addMessage("system", "Network error. Please try again.");
   } finally {
     isLoading.value = false;
+    scrollToBottom();
     chatInput.value?.focus();
   }
-}
-
-function clearChat() {
-  messages.value = [];
-  localStorage.removeItem(STORAGE_KEY);
-  chatInput.value?.focus();
 }
 </script>
