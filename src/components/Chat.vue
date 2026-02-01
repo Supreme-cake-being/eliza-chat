@@ -77,7 +77,6 @@ async function handleSend(text: string) {
   } finally {
     isLoading.value = false;
     scrollToBottom();
-    chatInput.value?.focus();
   }
 }
 </script>
