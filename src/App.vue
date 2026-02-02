@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-import Chat from "@/components/Chat.vue";
+import Chat from "@/components/Chat/Chat.vue";
 </script>

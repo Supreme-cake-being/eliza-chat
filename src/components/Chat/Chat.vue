@@ -24,7 +24,7 @@
 
       <!-- Footer -->
       <footer class="chat-footer">
-        <Input :loading="isLoading" @send="handleSend" ref="chatInput" />
+        <Input :loading="isLoading" @send="handleSend" />
 
         <div class="status">
           <span class="status__dot"></span>
@@ -39,14 +39,13 @@
 
 <script setup lang="ts">
 import { ref, nextTick, onMounted } from "vue";
-import Input from "@/components/Input.vue";
-import Message from "@/components/Message.vue";
+import Input from "@/components/Input/Input.vue";
+import Message from "@/components/Message/Message.vue";
 import { sendMessage } from "@/services/eliza.service";
-import { useChat } from "@/composables/useChat";
+import { useChat } from "@/composables/useChat/useChat";
 import { STORAGE_KEY } from "@/constants/storageKey";
 
 const chatBody = ref<HTMLElement | null>(null);
-const chatInput = ref<InstanceType<typeof Input> | null>(null);
 
 const { messages, isLoading, addMessage, clearChat } = useChat(STORAGE_KEY);
 
