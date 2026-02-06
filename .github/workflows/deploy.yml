@@ -5,6 +5,8 @@ on:
       - main
 env:
   NODE_VERSION: 20
+permissions:
+  contents: write
 jobs:
   test:
     name: Run tests
